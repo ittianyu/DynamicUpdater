@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.ittianyu.dynamicupdater"
         minSdkVersion rootProject.minSdkVersion
