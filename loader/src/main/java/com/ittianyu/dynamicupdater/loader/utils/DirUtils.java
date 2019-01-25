@@ -34,4 +34,17 @@ public class DirUtils {
         return file.getAbsolutePath();
     }
 
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            File[] children = dir.listFiles();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(children[i]);
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
+
 }

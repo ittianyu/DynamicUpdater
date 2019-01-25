@@ -33,7 +33,7 @@ public class LoaderUtils {
     }
 
     public static Loader getLoaderByConfig(String filePath, Context context) {
-        ClassLoader classLoader = loadJar(context, filePath);
+        ClassLoader classLoader = loadDex(context, filePath);
         return getLoaderByConfig(classLoader);
     }
 
@@ -55,7 +55,7 @@ public class LoaderUtils {
 
     public static Loader getLoaderByClass(String filePath, Context context, String className) {
         try {
-            return (Loader) loadJar(context, filePath).loadClass(className).newInstance();
+            return (Loader) loadDex(context, filePath).loadClass(className).newInstance();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -69,8 +69,14 @@ public class LoaderUtils {
         return getLoaderByClass(filePath, context, className).render(context, lifecycle);
     }
 
-    private static ClassLoader loadJar(Context context, String filePath) {
-        String id = filePath.substring(filePath.lastIndexOf(File.separator) + 1).replace('.', '_');
+    public static boolean cleanDex(Context context, String filePath) {
+        String id = FileUtils.getFileNameWithoutExt(filePath);
+        final File optimizedDexOutputPath = context.getDir(DEX + id, Context.MODE_PRIVATE);
+        return DirUtils.deleteDir(optimizedDexOutputPath);
+    }
+
+    public static ClassLoader loadDex(Context context, String filePath) {
+        String id = FileUtils.getFileNameWithoutExt(filePath);
         final File optimizedDexOutputPath = context.getDir(DEX + id, Context.MODE_PRIVATE);
         return new DexClassLoader(filePath, optimizedDexOutputPath.getAbsolutePath(), null, context.getClassLoader());
     }
