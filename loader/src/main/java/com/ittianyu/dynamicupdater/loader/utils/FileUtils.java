@@ -48,4 +48,19 @@ public class FileUtils {
         return nread;
     }
 
+    public static String getFileNameWithoutExt(String filePath) {
+        int nameIndex = filePath.lastIndexOf(File.separator);
+        if (nameIndex == -1) {
+            return "";
+        }
+        String name = filePath.substring(nameIndex + 1);
+        if (name.contains(".")) {
+            int pointIndex = name.lastIndexOf(".");
+            if (pointIndex == -1) {
+                pointIndex = name.length();
+            }
+            name = name.substring(0, pointIndex);
+        }
+        return name;
+    }
 }

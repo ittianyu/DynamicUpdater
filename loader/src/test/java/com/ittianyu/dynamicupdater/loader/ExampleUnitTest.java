@@ -1,6 +1,10 @@
 package com.ittianyu.dynamicupdater.loader;
 
+import com.ittianyu.dynamicupdater.loader.utils.FileUtils;
+
 import org.junit.Test;
+
+import java.io.File;
 
 import static org.junit.Assert.*;
 
@@ -15,4 +19,14 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void test_FileUtils_getFileNameWithoutExt() {
+        String fileName = "c.aaa";
+        String path = "aaa" + File.separator + "bbb" + File.separator + fileName + ".txt";
+
+        assertEquals(fileName, FileUtils.getFileNameWithoutExt(path));
+    }
+
+
 }
